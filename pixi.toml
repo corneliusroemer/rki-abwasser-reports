@@ -1,0 +1,22 @@
+[project]
+name = "rki-abwasser-reports"
+version = "0.1.0"
+description = "Mirrors the RKI Abwasser reports for ease of viewing"
+authors = ["Cornelius Roemer <cornelius.roemer@gmail.com>"]
+channels = ["conda-forge"]
+platforms = ["osx-arm64", "linux-64"]
+
+[tasks]
+
+[dependencies]
+python = ">=3.12.5,<4"
+requests = ">=2.32.3,<3"
+beautifulsoup4 = ">=4.12.3,<5"
+
+[feature.dev.dependencies]
+pip = ">=24.2,<25"
+ruff = ">=0.5.7,<0.6"
+ipykernel = ">=6.29.5,<7"
+
+[environments]
+dev = ["dev"]
