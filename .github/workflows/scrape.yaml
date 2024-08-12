@@ -1,4 +1,4 @@
-name: CI Workflow
+name: Scrape
 on:
   push:
     branches:
@@ -18,6 +18,10 @@ jobs:
         with:
           cache: true
       - run: pixi run python3 scripts/main.py
-      - run: git add .
+      - run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+      - run: git add --all .
+      - run: git status
       - run: git commit -m "Update data" || echo "No changes to commit"
       - run: git push
