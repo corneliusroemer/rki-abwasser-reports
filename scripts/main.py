@@ -56,6 +56,7 @@ for url in file_urls:
 
     with open(filepath, "wb") as file:
         file.write(response.content)
+        print(f"Downloaded: {filename}")
 
 #%%
 # Separate the English and German file URLs based on the filename
