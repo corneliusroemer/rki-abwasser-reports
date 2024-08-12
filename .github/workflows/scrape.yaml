@@ -15,7 +15,7 @@ jobs:
       - uses: prefix-dev/setup-pixi@v0.8.1
         with:
           cache: true
-      - run: pixi run scripts/main.py
+      - run: pixi run python3 scripts/main.py
       - run: git add .
       - run: git commit -m "Update data" || echo "No changes to commit"
       - run: git push
