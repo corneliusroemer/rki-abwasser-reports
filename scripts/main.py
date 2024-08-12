@@ -1,4 +1,5 @@
 # %%
+import datetime
 import os
 import xml.etree.ElementTree as ET
 
@@ -55,3 +56,65 @@ for url in file_urls:
 
     with open(filepath, "wb") as file:
         file.write(response.content)
+
+#%%
+# Separate the English and German file URLs based on the filename
+english_file_urls = [url for url in file_urls if "_EN_" in os.path.basename(url)]
+german_file_urls = [url for url in file_urls if "_EN_" not in os.path.basename(url)]
+
+# Create a simple index.html file with links to the downloaded PDFs
+with open("index.html", "w") as file:
+    file.write("""
+    <html>
+    <head>
+        <style>
+            body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 20px; color: #333; line-height: 1.6; }
+            h1 { color: #2c3e50; font-size: 24px; }
+            h2 { color: #2c3e50; font-size: 20px; }
+            p { font-size: 16px; }
+            a { text-decoration: none; color: #3498db; }
+            a:hover { color: #2980b9; }
+            .report-section { margin-bottom: 40px; }
+            .report-list { margin-left: 20px; }
+            .container { max-width: 800px; margin: auto; }
+        </style>
+        <title>RKI Abwasser Reports Mirror</title>
+    </head>
+    <body>
+        <div class="container">
+            <h1>RKI Abwasser Reports Mirror</h1>
+            <p>This website serves as a mirror for the Robert Koch Institute (RKI) wastewater reports, allowing direct access to the latest reports without requiring file downloads. You can browse the available English and German reports below.</p>
+            <p>The original reports are available at <a href="https://edoc.rki.de/handle/176904/11665">https://edoc.rki.de/handle/176904/11665</a>.</p>
+            
+            <div class="report-section">
+                <h2>English Reports</h2>
+                <div class="report-list">
+    """)
+    
+    for url in english_file_urls:
+        filename = os.path.basename(url)
+        file.write(f'<a href="data/{filename}">{filename}</a><br>')
+    
+    file.write("""
+                </div>
+            </div>
+            <div class="report-section">
+                <h2>German Reports</h2>
+                <div class="report-list">
+    """)
+    
+    for url in german_file_urls:
+        filename = os.path.basename(url)
+        file.write(f'<a href="data/{filename}">{filename}</a><br>')
+    
+    file.write(f"""
+                </div>
+            </div>
+            <p>Created by <a href="https://github.com/corneliusroemer">Cornelius Roemer</a><br>
+            Source code available on <a href="https://github.com/corneliusroemer/rki-abwasser-reports">GitHub</a><br>
+            Last updated: {datetime.datetime.now(datetime.UTC).strftime("%Y-%m-%dT%H:%M:%S %Z")}</p>
+        </div>
+    </body>
+    </html>
+    """)
+# %%
