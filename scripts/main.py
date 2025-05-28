@@ -25,7 +25,7 @@ def get_report_links() -> list[str]:
 
 
 # This should work for any date, so don't hard code date
-def get_file_url(url: str) -> str:
+def get_file_url(url: str) -> str | None:
     response = requests.get(url)
     response.raise_for_status()
 
@@ -39,9 +39,10 @@ def get_file_url(url: str) -> str:
         return pdf_url
     else:
         print("PDF URL not found.")
+        return None  # Explicitly return None
 
 
-file_urls = [get_file_url(link) for link in get_report_links()]
+file_urls = [url for url in (get_file_url(link) for link in get_report_links()) if url is not None]
 
 # Create the data folder if it doesn't exist
 if not os.path.exists("data"):
